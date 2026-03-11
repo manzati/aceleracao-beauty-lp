@@ -63,12 +63,25 @@ export default function ContentSection() {
             transition={{ duration: 0.8 }}
             className="w-full flex justify-center md:justify-end"
           >
-            {/* Minimalist geometric abstract image overlay */}
-            <div className="relative w-full aspect-square max-w-md bg-onyx brutalist-shadow-ice flex items-center justify-center overflow-hidden">
-               <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]" />
-               <div className="w-64 h-64 border border-gold rotate-45 flex items-center justify-center p-8">
-                  <div className="w-full h-full border border-ice/50 -rotate-12 flex items-center justify-center">
-                     <span className="font-serif text-5xl text-gold italic">+100K</span>
+            {/* Videographic Brutalist Container */}
+            <div className="relative w-full aspect-square max-w-md bg-onyx brutalist-shadow-ice flex items-center justify-center overflow-hidden border border-ice/10">
+               {/* Video looping underneath */}
+               <div className="absolute inset-0 z-0 opacity-40 mix-blend-screen grayscale">
+                 <video 
+                    autoPlay 
+                    muted 
+                    loop 
+                    playsInline
+                    className="w-full h-full object-cover object-center"
+                 >
+                    <source src="/assets/video_hero.mp4" type="video/mp4" />
+                 </video>
+               </div>
+               
+               {/* Typographic focus overlay */}
+               <div className="w-64 h-64 border border-gold rotate-45 flex items-center justify-center p-8 relative z-10 backdrop-blur-[2px]">
+                  <div className="w-full h-full border border-ice/50 -rotate-12 flex items-center justify-center bg-onyx/40">
+                     <span className="font-serif text-5xl text-gold italic drop-shadow-lg">+100K</span>
                   </div>
                </div>
             </div>
