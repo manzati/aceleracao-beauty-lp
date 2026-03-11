@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-onyx: #0a0a0a;
+  --color-ice: #f3f4f6;
+  --color-gold: #d4af37;
+  --color-gold-dark: #b5952f;
+  --color-bordeaux: #5b111b;
+  --color-bordeaux-dark: #3a0b11;
+  
+  --font-serif: var(--font-playfair), serif;
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+:root {
+  background-color: var(--color-onyx);
+  color: var(--color-ice);
+}
+
+::selection {
+  background-color: var(--color-gold);
+  color: var(--color-onyx);
+}
+
+/* Brutalist utilities */
+.brutalist-border {
+  border: 1px solid var(--color-ice);
+}
+
+.brutalist-shadow {
+  box-shadow: 4px 4px 0px 0px var(--color-gold);
+}
+
+.brutalist-shadow-ice {
+  box-shadow: 4px 4px 0px 0px var(--color-ice);
+}
+
+.brutalist-button {
+  transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.brutalist-button:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0px 0px 0px 0px var(--color-gold);
+}
