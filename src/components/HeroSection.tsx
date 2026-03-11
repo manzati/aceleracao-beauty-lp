@@ -7,16 +7,13 @@ export default function HeroSection() {
   return (
     <section className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-onyx py-20 lg:py-0">
       {/* Background Video element overlapping the entire right side or running async */}
-      <div className="absolute inset-0 z-0 opacity-40 mix-blend-luminosity grayscale pointer-events-none">
-        <video 
-          autoPlay 
-          muted 
-          loop 
-          playsInline
+      <div className="absolute inset-0 z-0 opacity-30 mix-blend-luminosity grayscale pointer-events-none">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img 
+          src="/assets/jhon.png" 
+          alt="Jhon Guttyerre"
           className="w-full h-full object-cover object-center"
-        >
-          <source src="/assets/video_hero.mp4" type="video/mp4" />
-        </video>
+        />
       </div>
 
       <div className="container mx-auto px-4 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center h-full mt-24 lg:mt-0">
