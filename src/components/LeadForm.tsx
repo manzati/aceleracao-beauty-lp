@@ -7,7 +7,7 @@ export default function LeadForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // In actual implementation, we'll connect this to a webhook or direct to WhatsApp
-    window.location.href = "https://wa.me/5511999999999?text=Quero%20entrar%20no%20grupo%20VIP%20de%20acelera%C3%A7%C3%A3o%20Beauty";
+    window.location.href = "https://chat.whatsapp.com/IHNQeiXvbBg4WaSf4j9Xa3";
   };
 
   return (
