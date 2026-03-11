@@ -1,9 +1,24 @@
 "use client";
 
+import { useState, useRef } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Play, Pause } from "lucide-react";
 
 export default function TestimonialsSection() {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const toggleVideo = () => {
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -26,6 +41,37 @@ export default function TestimonialsSection() {
                  Incontestáveis
               </span>
            </h2>
+        </motion.div>
+
+        {/* Main Video Testimonial */}
+        <motion.div
+           initial={{ opacity: 0, scale: 0.95 }}
+           whileInView={{ opacity: 1, scale: 1 }}
+           viewport={{ once: true }}
+           transition={{ duration: 0.8 }}
+           className="w-full max-w-5xl bg-onyx brutalist-shadow border border-ice/10 mb-12 relative group overflow-hidden aspect-video md:aspect-[21/9] flex items-center justify-center"
+        >
+           <video 
+              ref={videoRef}
+              playsInline
+              className="w-full h-full object-cover cursor-pointer"
+              onEnded={() => setIsPlaying(false)}
+              onClick={toggleVideo}
+           >
+              <source src="/assets/video_hero.mp4" type="video/mp4" />
+           </video>
+
+           {/* Custom BRUTALIST Play Button Overlay */}
+           <div 
+             className={`absolute inset-0 flex items-center justify-center transition-all duration-300 pointer-events-none ${isPlaying ? 'opacity-0 group-hover:opacity-100 bg-onyx/40' : 'bg-onyx/60'}`}
+           >
+              <button 
+                className="w-20 h-20 md:w-24 md:h-24 border-2 border-gold flex items-center justify-center brutalist-shadow-ice transition-transform bg-onyx text-gold pointer-events-auto"
+                onClick={toggleVideo}
+              >
+                 {isPlaying ? <Pause className="w-8 h-8 md:w-10 md:h-10" /> : <Play className="w-8 h-8 md:w-10 md:h-10 ml-1 md:ml-2" />}
+              </button>
+           </div>
         </motion.div>
 
         {/* Aggressive Grid / Tension layout for testimonials */}
