@@ -15,17 +15,24 @@ export default function LeadForm() {
     setError(null);
 
     const formData = new FormData(e.currentTarget);
-    const result = await submitLead(formData);
+    
+    try {
+      const result = await submitLead(formData);
 
-    if (result.error) {
-      setError(result.error);
-      setIsLoading(false);
-    } else {
-      // Trigger Meta Pixel Conversion Event
-      if (typeof window !== "undefined" && "fbq" in window) {
-        (window as unknown as { fbq: (action: string, event: string) => void }).fbq('track', 'Lead');
+      if (result?.error) {
+        setError(result.error);
+        setIsLoading(false);
+      } else {
+        // Trigger Meta Pixel Conversion Event
+        if (typeof window !== "undefined" && "fbq" in window) {
+          (window as unknown as { fbq: (action: string, event: string) => void }).fbq('track', 'Lead');
+        }
+        window.location.href = "https://chat.whatsapp.com/IHNQeiXvbBg4WaSf4j9Xa3";
       }
-      window.location.href = "https://chat.whatsapp.com/IHNQeiXvbBg4WaSf4j9Xa3";
+    } catch (err) {
+      console.error("Erro na Server Action:", err);
+      setError("Erro de servidor. As variáveis de ambiente (Supabase) foram configuradas na Vercel?");
+      setIsLoading(false);
     }
   };
 
