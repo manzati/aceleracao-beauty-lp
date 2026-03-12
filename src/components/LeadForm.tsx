@@ -1,14 +1,34 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Loader2 } from "lucide-react";
+import { submitLead } from "@/actions/lead";
 
 export default function LeadForm() {
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // In actual implementation, we'll connect this to a webhook or direct to WhatsApp
-    window.location.href = "https://chat.whatsapp.com/IHNQeiXvbBg4WaSf4j9Xa3";
+    setIsLoading(true);
+    setError(null);
+
+    const formData = new FormData(e.currentTarget);
+    const result = await submitLead(formData);
+
+    if (result.error) {
+      setError(result.error);
+      setIsLoading(false);
+    } else {
+      // Trigger Meta Pixel Conversion Event
+      if (typeof window !== "undefined" && "fbq" in window) {
+        (window as unknown as { fbq: (action: string, event: string) => void }).fbq('track', 'Lead');
+      }
+      window.location.href = "https://chat.whatsapp.com/IHNQeiXvbBg4WaSf4j9Xa3";
+    }
   };
+
 
   return (
     <motion.div 
@@ -34,8 +54,10 @@ export default function LeadForm() {
           <input 
             type="text" 
             id="name" 
+            name="name"
             required
-            className="w-full bg-transparent border-b border-ice/20 py-3 text-ice font-sans focus:outline-none focus:border-gold transition-colors placeholder:text-ice/20"
+            disabled={isLoading}
+            className="w-full bg-transparent border-b border-ice/20 py-3 text-ice font-sans focus:outline-none focus:border-gold transition-colors placeholder:text-ice/20 disabled:opacity-50"
             placeholder="Seu nome"
           />
         </div>
@@ -47,8 +69,10 @@ export default function LeadForm() {
           <input 
             type="tel" 
             id="whatsapp" 
+            name="whatsapp"
             required
-            className="w-full bg-transparent border-b border-ice/20 py-3 text-ice font-sans focus:outline-none focus:border-gold transition-colors placeholder:text-ice/20"
+            disabled={isLoading}
+            className="w-full bg-transparent border-b border-ice/20 py-3 text-ice font-sans focus:outline-none focus:border-gold transition-colors placeholder:text-ice/20 disabled:opacity-50"
             placeholder="(00) 00000-0000"
           />
         </div>
@@ -60,18 +84,34 @@ export default function LeadForm() {
           <input 
             type="text" 
             id="instagram" 
+            name="instagram"
             required
-            className="w-full bg-transparent border-b border-ice/20 py-3 text-ice font-sans focus:outline-none focus:border-gold transition-colors placeholder:text-ice/20"
+            disabled={isLoading}
+            className="w-full bg-transparent border-b border-ice/20 py-3 text-ice font-sans focus:outline-none focus:border-gold transition-colors placeholder:text-ice/20 disabled:opacity-50"
             placeholder="@seunome"
           />
         </div>
 
+        {error && (
+          <p className="text-red-400 text-sm font-sans">{error}</p>
+        )}
+
         <button 
           type="submit"
-          className="w-full bg-gold text-onyx font-bold uppercase tracking-widest py-5 mt-4 flex items-center justify-center gap-3 brutalist-button"
+          disabled={isLoading}
+          className="w-full bg-gold text-onyx font-bold uppercase tracking-widest py-5 mt-4 flex items-center justify-center gap-3 brutalist-button disabled:opacity-75 disabled:cursor-not-allowed"
         >
-          Entrar no Grupo
-          <ArrowRight className="w-5 h-5" />
+          {isLoading ? (
+            <>
+              Processando...
+              <Loader2 className="w-5 h-5 animate-spin" />
+            </>
+          ) : (
+            <>
+              Entrar no Grupo
+              <ArrowRight className="w-5 h-5" />
+            </>
+          )}
         </button>
       </form>
     </motion.div>
